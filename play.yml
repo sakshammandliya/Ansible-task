@@ -1,0 +1,18 @@
+---
+- name: Create OS info file
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: Determine OS name
+      set_fact:
+        file_name: "{{ ansible_distribution }}"
+ 
+    - name: Create Task2 directory
+      ansible.builtin.file:
+        path: "/home/einfochips/Documents/playbook"
+        state: directory
+ 
+    - name: Create OS info file
+      ansible.builtin.copy:
+        content: "{{ ansible_facts | to_nice_json }}"
+        dest: "/home/einfochips/Downloads/{{ file_name }}.txt"
